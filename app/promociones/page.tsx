@@ -4,8 +4,6 @@ import PromotionCard from "@/components/promotion-card"
 
 export default function PromotionsPage() {
   // Datos de ejemplo para las promociones
-  // TODO: Reemplazar con datos reales de promociones mediante una llamada a la API
-  // Hacer una llamada a la API para obtener las promociones
   const promotions = [
     {
       id: "promo-dia-mujer",
