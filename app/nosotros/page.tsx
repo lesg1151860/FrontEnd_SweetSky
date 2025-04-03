@@ -35,14 +35,10 @@ export default function AboutPage() {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-pink-600">Nuestra Historia</h2>
                 <p className="text-gray-500">
-                  Sweet Sky nació en 2020 como un pequeño emprendimiento familiar con una gran pasión por la repostería
-                  artesanal. Lo que comenzó como un hobby se transformó rápidamente en un negocio en crecimiento gracias
-                  a la calidad de nuestros productos y el amor que ponemos en cada detalle.
+                  Sweet Sky nació en 2024 como un pequeño emprendimiento personal con una gran pasión por la repostería artesanal. Lo que comenzó como un hobbie se transformó rápidamente en un negocio en crecimiento gracias a la calidad de nuestros productos y el amor que ponemos en cada detalle.
                 </p>
                 <p className="text-gray-500">
-                  Nos especializamos en mini postres que son perfectos para cualquier ocasión, desde reuniones
-                  familiares hasta eventos corporativos. Nuestra misión es endulzar los momentos especiales de nuestros
-                  clientes con productos de la más alta calidad.
+                  Nos especializamos en mini postres que son perfectos para cualquier ocasión, desde reuniones familiares hasta eventos corporativos. Nuestra misión es endulzar los momentos especiales de nuestros clientes con productos de la más alta calidad.
                 </p>
               </div>
             </div>
@@ -134,8 +130,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-lg font-bold">Atención Personalizada</h3>
                 <p className="text-gray-500 mt-2">
-                  Cada cliente es único y nos esforzamos por brindar una atención personalizada que satisfaga sus
-                  necesidades.
+                  Cada cliente es único y nos esforzamos por brindar una atención personalizada que satisfaga sus necesidades.
                 </p>
               </div>
 

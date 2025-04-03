@@ -6,13 +6,16 @@ import Link from "next/link"
 
 export default function Home() {
   // Datos de ejemplo para los productos más vendidos
+  // TODO: Reemplazar con datos reales de productos
+  // Hacer una llamada a la API para obtener los productos más vendidos
   const featuredProducts = [
     {
-      id: "mini-donas-4",
+      id: "mini-donas-4", //Posible id de producto numerico
       title: "Mini Donas x4",
       description: "Deliciosas mini donas con tu salsa y topping favorito",
       price: "$12.000",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      // imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/minidonas.jpeg",
       category: "mini-donas",
     },
     {

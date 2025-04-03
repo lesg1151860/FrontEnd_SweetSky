@@ -8,18 +8,18 @@ export default function ProductsPage() {
   const products = {
     "mini-donas": [
       {
-        id: "mini-donas-4",
-        title: "Mini Donas x4",
+        id: "mini-donas-6",
+        title: "Mini Donas x6",
         description: "Deliciosas mini donas con tu salsa y topping favorito",
-        price: "$12.000",
+        price: "$10.000",
         imageSrc: "/placeholder.svg?height=300&width=300",
         category: "mini-donas",
       },
       {
-        id: "mini-donas-8",
-        title: "Mini Donas x8",
+        id: "mini-donas-9",
+        title: "Mini Donas x9",
         description: "Deliciosas mini donas con tu salsa y topping favorito",
-        price: "$22.000",
+        price: "$15.000",
         imageSrc: "/placeholder.svg?height=300&width=300",
         category: "mini-donas",
       },
@@ -27,7 +27,7 @@ export default function ProductsPage() {
         id: "mini-donas-12",
         title: "Mini Donas x12",
         description: "Deliciosas mini donas con tu salsa y topping favorito",
-        price: "$32.000",
+        price: "$20.000",
         imageSrc: "/placeholder.svg?height=300&width=300",
         category: "mini-donas",
       },
