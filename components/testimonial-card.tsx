@@ -35,4 +35,3 @@ export default function TestimonialCard({ name, quote, rating }: TestimonialCard
     </Card>
   )
 }
-

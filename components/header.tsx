@@ -4,10 +4,20 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import { Menu, LogOut, User, Settings } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, logout } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -39,11 +49,36 @@ export default function Header() {
           </Link>
         </nav>
         <div className="hidden md:flex gap-4">
-          <Link href="/login">
-            <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
-              Iniciar sesión
-            </Button>
-          </Link>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
+                  <User className="h-4 w-4 mr-2" />
+                  {user.name}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href="/perfil">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Mi perfil
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Cerrar sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/login">
+              <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
+                Iniciar sesión
+              </Button>
+            </Link>
+          )}
           <Link href="/productos">
             <Button className="bg-pink-600 hover:bg-pink-700">Hacer pedido</Button>
           </Link>
@@ -74,11 +109,34 @@ export default function Header() {
                 Promociones
               </Link>
               <div className="flex flex-col gap-2 mt-4">
-                <Link href="/login">
-                  <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50 w-full">
-                    Iniciar sesión
-                  </Button>
-                </Link>
+                {user ? (
+                  <>
+                    <div className="flex items-center gap-2 py-2">
+                      <User className="h-4 w-4" />
+                      <span>{user.name}</span>
+                    </div>
+                    <Link href="/perfil">
+                      <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50 w-full">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Mi perfil
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outline"
+                      className="border-pink-200 text-pink-600 hover:bg-pink-50 w-full"
+                      onClick={logout}
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Cerrar sesión
+                    </Button>
+                  </>
+                ) : (
+                  <Link href="/login">
+                    <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50 w-full">
+                      Iniciar sesión
+                    </Button>
+                  </Link>
+                )}
                 <Link href="/productos">
                   <Button className="bg-pink-600 hover:bg-pink-700 w-full">Hacer pedido</Button>
                 </Link>
@@ -90,4 +148,3 @@ export default function Header() {
     </header>
   )
 }
-

@@ -40,4 +40,3 @@ export default function PromotionCard({ id, title, description, discount, validU
     </Card>
   )
 }
-

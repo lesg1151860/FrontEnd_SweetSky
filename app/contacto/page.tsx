@@ -32,8 +32,7 @@ export default function ContactPage() {
                 <div>
                   <h2 className="text-2xl font-bold text-pink-600 mb-4">Información de Contacto</h2>
                   <p className="text-gray-500 mb-6">
-                    Si tienes alguna pregunta sobre nuestros productos o quieres hacer un pedido especial, no dudes en
-                    contactarnos.
+                    Si tienes alguna pregunta sobre nuestros productos o quieres hacer un pedido especial, no dudes en contactarnos.
                   </p>
                 </div>
 
@@ -56,7 +55,7 @@ export default function ContactPage() {
                       <h3 className="font-medium">Email</h3>
                       <p className="text-gray-500">
                         <a href="mailto:info@sweetsky.com" className="hover:text-pink-600 transition-colors">
-                          info@sweetsky.com
+                          sweet.sky2303@gmail.com
                         </a>
                       </p>
                     </div>
@@ -83,7 +82,7 @@ export default function ContactPage() {
                     <MapPin className="h-5 w-5 text-pink-600 mt-0.5" />
                     <div>
                       <h3 className="font-medium">Ubicación</h3>
-                      <p className="text-gray-500">Bogotá, Colombia</p>
+                      <p className="text-gray-500">Cúcuta, Colombia</p>
                     </div>
                   </div>
                 </div>
@@ -151,4 +150,3 @@ export default function ContactPage() {
     </div>
   )
 }
-

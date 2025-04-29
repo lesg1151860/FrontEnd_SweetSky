@@ -28,12 +28,16 @@ export default function ProductCard({ id, title, description, price, imageSrc, c
         <p className="text-sm text-gray-500 mt-2">{description}</p>
         <p className="text-pink-600 font-medium mt-2">{price}</p>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
+      <CardFooter className="p-4 pt-0 flex flex-col gap-2">
         <Link href={`/productos/${category}/${id}`} className="w-full">
           <Button className="w-full bg-pink-600 hover:bg-pink-700">Ver detalles</Button>
+        </Link>
+        <Link href={`/productos/${category}/${id}?pedido=true`} className="w-full">
+          <Button variant="outline" className="w-full border-pink-200 text-pink-600 hover:bg-pink-50">
+            Realizar pedido
+          </Button>
         </Link>
       </CardFooter>
     </Card>
   )
 }
-

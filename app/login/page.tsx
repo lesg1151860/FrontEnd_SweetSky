@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -10,37 +11,129 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useAuth } from "@/contexts/auth-context"
+import { useToast } from "@/hooks/use-toast"
+import { AlertCircle, Eye, EyeOff } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("")
+  const [showLoginPassword, setShowLoginPassword] = useState(false)
+
+  // Campos para registro
+  const [registerName, setRegisterName] = useState("")
+  const [registerLastName, setRegisterLastName] = useState("")
+  const [registerEmail, setRegisterEmail] = useState("")
+  const [registerPassword, setRegisterPassword] = useState("")
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false)
+  const [registerConfirmPassword, setRegisterConfirmPassword] = useState("")
+  const [showRegisterConfirmPassword, setShowRegisterConfirmPassword] = useState(false)
+  const [registerPhone, setRegisterPhone] = useState("")
+  const [registerAddress, setRegisterAddress] = useState("")
+
+  const { login, register, user } = useAuth()
+  const router = useRouter()
+  const { toast } = useToast()
+
+  // Si el usuario ya está autenticado, redirigir a la página de inicio
+  if (user) {
+    router.push("/")
+    return null
+  }
 
   const handleGoogleLogin = () => {
     setIsLoading(true)
     // Aquí iría la lógica para iniciar sesión con Google
     setTimeout(() => {
       setIsLoading(false)
-      alert("Funcionalidad de inicio de sesión con Google en desarrollo")
+      toast({
+        title: "Funcionalidad en desarrollo",
+        description: "El inicio de sesión con Google estará disponible próximamente",
+      })
     }, 1500)
   }
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    // Aquí iría la lógica para iniciar sesión
-    setTimeout(() => {
+
+    try {
+      const success = await login(loginEmail, loginPassword)
+
+      if (success) {
+        toast({
+          title: "Inicio de sesión exitoso",
+          description: "Bienvenido a Sweet Sky",
+        })
+        router.push("/")
+      } else {
+        toast({
+          title: "Error de inicio de sesión",
+          description: "Correo electrónico o contraseña incorrectos",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Ocurrió un error al iniciar sesión",
+        variant: "destructive",
+      })
+    } finally {
       setIsLoading(false)
-      alert("Funcionalidad de inicio de sesión en desarrollo")
-    }, 1500)
+    }
   }
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    // Aquí iría la lógica para registrarse
-    setTimeout(() => {
+
+    // Validar que las contraseñas coincidan
+    if (registerPassword !== registerConfirmPassword) {
+      toast({
+        title: "Error",
+        description: "Las contraseñas no coinciden",
+        variant: "destructive",
+      })
       setIsLoading(false)
-      alert("Funcionalidad de registro en desarrollo")
-    }, 1500)
+      return
+    }
+
+    try {
+      const success = await register({
+        name: registerName,
+        lastName: registerLastName,
+        email: registerEmail,
+        password: registerPassword,
+        phone: registerPhone,
+        address: registerAddress,
+        authProvider: "email",
+      })
+
+      if (success) {
+        toast({
+          title: "Registro exitoso",
+          description: "Bienvenido a Sweet Sky",
+        })
+        router.push("/")
+      } else {
+        toast({
+          title: "Error de registro",
+          description: "El correo electrónico ya está registrado",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Ocurrió un error al registrarse",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -108,7 +201,14 @@ export default function LoginPage() {
                     <form onSubmit={handleLogin} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="tu@email.com" required />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="tu@email.com"
+                          required
+                          value={loginEmail}
+                          onChange={(e) => setLoginEmail(e.target.value)}
+                        />
                       </div>
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
@@ -117,11 +217,42 @@ export default function LoginPage() {
                             ¿Olvidaste tu contraseña?
                           </a>
                         </div>
-                        <Input id="password" type="password" required />
+                        <div className="relative">
+                          <Input
+                            id="password"
+                            type={showLoginPassword ? "text" : "password"}
+                            required
+                            value={loginPassword}
+                            onChange={(e) => setLoginPassword(e.target.value)}
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowLoginPassword(!showLoginPassword)}
+                          >
+                            {showLoginPassword ? (
+                              <EyeOff className="h-4 w-4 text-gray-500" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-gray-500" />
+                            )}
+                            <span className="sr-only">
+                              {showLoginPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                            </span>
+                          </Button>
+                        </div>
                       </div>
                       <Button type="submit" className="w-full bg-pink-600 hover:bg-pink-700" disabled={isLoading}>
                         {isLoading ? "Cargando..." : "Iniciar sesión"}
                       </Button>
+
+                      {/* Credenciales de prueba */}
+                      <div className="mt-4 p-3 bg-gray-50 rounded-md border text-sm">
+                        <p className="font-medium mb-1">Credenciales de prueba:</p>
+                        <p>Email: soporte@sweetsky.com</p>
+                        <p>Contraseña: sweetsky123</p>
+                      </div>
                     </form>
                   </CardContent>
                 </Card>
@@ -135,22 +266,140 @@ export default function LoginPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <form onSubmit={handleRegister} className="space-y-4">
+                      <Alert className="bg-yellow-50 border-yellow-200 text-yellow-800">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                          Los campos de nombre, apellido y correo electrónico no podrán ser modificados después del
+                          registro. Por favor, asegúrate de ingresar la información correcta.
+                        </AlertDescription>
+                      </Alert>
+
                       <div className="space-y-2">
-                        <Label htmlFor="name">Nombre completo</Label>
-                        <Input id="name" placeholder="Tu nombre" required />
+                        <Label htmlFor="name">
+                          Nombre <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="name"
+                          placeholder="Tu nombre"
+                          required
+                          value={registerName}
+                          onChange={(e) => setRegisterName(e.target.value)}
+                        />
+                        <p className="text-xs text-gray-500">Este campo no podrá ser modificado después.</p>
                       </div>
+
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="tu@email.com" required />
+                        <Label htmlFor="lastName">
+                          Apellidos <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="lastName"
+                          placeholder="Tus apellidos"
+                          required
+                          value={registerLastName}
+                          onChange={(e) => setRegisterLastName(e.target.value)}
+                        />
+                        <p className="text-xs text-gray-500">Este campo no podrá ser modificado después.</p>
                       </div>
+
                       <div className="space-y-2">
-                        <Label htmlFor="password">Contraseña</Label>
-                        <Input id="password" type="password" required />
+                        <Label htmlFor="registerEmail">
+                          Email <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="registerEmail"
+                          type="email"
+                          placeholder="tu@email.com"
+                          required
+                          value={registerEmail}
+                          onChange={(e) => setRegisterEmail(e.target.value)}
+                        />
+                        <p className="text-xs text-gray-500">Este campo no podrá ser modificado después.</p>
                       </div>
+
                       <div className="space-y-2">
-                        <Label htmlFor="confirm-password">Confirmar contraseña</Label>
-                        <Input id="confirm-password" type="password" required />
+                        <Label htmlFor="phone">Teléfono</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="Tu número de teléfono"
+                          value={registerPhone}
+                          onChange={(e) => setRegisterPhone(e.target.value)}
+                        />
                       </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="address">Dirección</Label>
+                        <Input
+                          id="address"
+                          placeholder="Tu dirección"
+                          value={registerAddress}
+                          onChange={(e) => setRegisterAddress(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="registerPassword">
+                          Contraseña <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="relative">
+                          <Input
+                            id="registerPassword"
+                            type={showRegisterPassword ? "text" : "password"}
+                            required
+                            value={registerPassword}
+                            onChange={(e) => setRegisterPassword(e.target.value)}
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                          >
+                            {showRegisterPassword ? (
+                              <EyeOff className="h-4 w-4 text-gray-500" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-gray-500" />
+                            )}
+                            <span className="sr-only">
+                              {showRegisterPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="confirmPassword">
+                          Confirmar contraseña <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="relative">
+                          <Input
+                            id="confirmPassword"
+                            type={showRegisterConfirmPassword ? "text" : "password"}
+                            required
+                            value={registerConfirmPassword}
+                            onChange={(e) => setRegisterConfirmPassword(e.target.value)}
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowRegisterConfirmPassword(!showRegisterConfirmPassword)}
+                          >
+                            {showRegisterConfirmPassword ? (
+                              <EyeOff className="h-4 w-4 text-gray-500" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-gray-500" />
+                            )}
+                            <span className="sr-only">
+                              {showRegisterConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+
                       <Button type="submit" className="w-full bg-pink-600 hover:bg-pink-700" disabled={isLoading}>
                         {isLoading ? "Cargando..." : "Registrarse"}
                       </Button>
@@ -167,4 +416,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

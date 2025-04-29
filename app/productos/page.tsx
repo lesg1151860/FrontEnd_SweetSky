@@ -8,27 +8,27 @@ export default function ProductsPage() {
   const products = {
     "mini-donas": [
       {
-        id: "mini-donas-4",
-        title: "Mini Donas x4",
+        id: "mini-donas-6",
+        title: "Mini Donas x6",
         description: "Deliciosas mini donas con tu salsa y topping favorito",
-        price: "$12.000",
-        imageSrc: "/placeholder.svg?height=300&width=300",
+        price: "$10.000",
+        imageSrc: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/21.jpg-WsAhALE5VvL7yjc9AMVjKwsTbpj60f.jpeg",
         category: "mini-donas",
       },
       {
-        id: "mini-donas-8",
-        title: "Mini Donas x8",
+        id: "mini-donas-9",
+        title: "Mini Donas x9",
         description: "Deliciosas mini donas con tu salsa y topping favorito",
-        price: "$22.000",
-        imageSrc: "/placeholder.svg?height=300&width=300",
+        price: "$15.000",
+        imageSrc: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.jpg-xUzl0HtKSLhImqkBeIK0idMGNVPael.jpeg",
         category: "mini-donas",
       },
       {
         id: "mini-donas-12",
         title: "Mini Donas x12",
         description: "Deliciosas mini donas con tu salsa y topping favorito",
-        price: "$32.000",
-        imageSrc: "/placeholder.svg?height=300&width=300",
+        price: "$20.000",
+        imageSrc: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20.jpg-5MWRUHQdbzX5wQXgNYLtXUXbpHBbJy.jpeg",
         category: "mini-donas",
       },
     ],
@@ -38,23 +38,23 @@ export default function ProductsPage() {
         title: "Mini Waffles x4",
         description: "Crujientes mini waffles con tu salsa y topping favorito",
         price: "$14.000",
-        imageSrc: "/placeholder.svg?height=300&width=300",
+        imageSrc: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.jpg-OE4xLdmYsTHLVYY5N986rBHYOSXisy.jpeg",
         category: "mini-waffles",
       },
       {
-        id: "mini-waffles-8",
-        title: "Mini Waffles x8",
+        id: "mini-waffles-6",
+        title: "Mini Waffles x6",
         description: "Crujientes mini waffles con tu salsa y topping favorito",
         price: "$26.000",
-        imageSrc: "/placeholder.svg?height=300&width=300",
+        imageSrc: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1.jpg-5YcWH9TQJ6uqk8fEKryWAD4A3GzQP3.jpeg",
         category: "mini-waffles",
       },
       {
-        id: "mini-waffles-12",
-        title: "Mini Waffles x12",
+        id: "mini-waffles-9",
+        title: "Mini Waffles x9",
         description: "Crujientes mini waffles con tu salsa y topping favorito",
         price: "$38.000",
-        imageSrc: "/placeholder.svg?height=300&width=300",
+        imageSrc: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2.jpg-vQLQBsA8Hk3wSAm6eXar36RnbBjD4h.jpeg",
         category: "mini-waffles",
       },
     ],
@@ -214,4 +214,3 @@ export default function ProductsPage() {
     </div>
   )
 }
-

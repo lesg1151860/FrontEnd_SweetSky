@@ -18,6 +18,37 @@ export default function ProductDetailPage({ params }: { params: { category: stri
     category: params.category,
   }
 
+  // Asignar imágenes específicas según la categoría y el ID
+  if (params.category === "mini-waffles") {
+    if (params.id === "mini-waffles-4") {
+      productData.imageSrc =
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.jpg-OE4xLdmYsTHLVYY5N986rBHYOSXisy.jpeg"
+      productData.price = "$14.000"
+    } else if (params.id === "mini-waffles-6") {
+      productData.imageSrc =
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1.jpg-5YcWH9TQJ6uqk8fEKryWAD4A3GzQP3.jpeg"
+      productData.price = "$26.000"
+    } else if (params.id === "mini-waffles-9") {
+      productData.imageSrc =
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2.jpg-vQLQBsA8Hk3wSAm6eXar36RnbBjD4h.jpeg"
+      productData.price = "$38.000"
+    }
+  } else if (params.category === "mini-donas") {
+    if (params.id === "mini-donas-6") {
+      productData.imageSrc =
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/21.jpg-WsAhALE5VvL7yjc9AMVjKwsTbpj60f.jpeg"
+      productData.price = "$10.000"
+    } else if (params.id === "mini-donas-9") {
+      productData.imageSrc =
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.jpg-xUzl0HtKSLhImqkBeIK0idMGNVPael.jpeg"
+      productData.price = "$15.000"
+    } else if (params.id === "mini-donas-12") {
+      productData.imageSrc =
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20.jpg-5MWRUHQdbzX5wQXgNYLtXUXbpHBbJy.jpeg"
+      productData.price = "$20.000"
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -41,4 +72,3 @@ export default function ProductDetailPage({ params }: { params: { category: stri
     </div>
   )
 }
-

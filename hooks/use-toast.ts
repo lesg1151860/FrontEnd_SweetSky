@@ -1,12 +1,9 @@
 "use client"
 
 // Inspired by react-hot-toast library
-import * as React from "react"
+import type * as React from "react"
 
-import type {
-  ToastActionElement,
-  ToastProps,
-} from "@/components/ui/toast"
+import type { ToastActionElement, ToastProps } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
@@ -85,9 +82,7 @@ export const reducer = (state: State, action: Action): State => {
     case "UPDATE_TOAST":
       return {
         ...state,
-        toasts: state.toasts.map((t) =>
-          t.id === action.toast.id ? { ...t, ...action.toast } : t
-        ),
+        toasts: state.toasts.map((t) => (t.id === action.toast.id ? { ...t, ...action.toast } : t)),
       }
 
     case "DISMISS_TOAST": {
@@ -111,7 +106,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...t,
                 open: false,
               }
-            : t
+            : t,
         ),
       }
     }
@@ -171,24 +166,30 @@ function toast({ ...props }: Toast) {
   }
 }
 
+import { useState } from "react"
+
+type ToastPropsUpdated = {
+  title?: string
+  description?: string
+  variant?: "default" | "destructive"
+  duration?: number
+}
+
 function useToast() {
-  const [state, setState] = React.useState<State>(memoryState)
+  const [toasts, setToasts] = useState<ToastPropsUpdated[]>([])
 
-  React.useEffect(() => {
-    listeners.push(setState)
-    return () => {
-      const index = listeners.indexOf(setState)
-      if (index > -1) {
-        listeners.splice(index, 1)
-      }
-    }
-  }, [state])
+  const toastUpdated = (props: ToastPropsUpdated) => {
+    const id = Math.random().toString(36).substring(2, 9)
+    const newToast = { ...props, id }
+    setToasts((prevToasts) => [...prevToasts, newToast])
 
-  return {
-    ...state,
-    toast,
-    dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
+    // Auto dismiss
+    setTimeout(() => {
+      setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id))
+    }, props.duration || 5000)
   }
+
+  return { toast: toastUpdated, toasts }
 }
 
 export { useToast, toast }
