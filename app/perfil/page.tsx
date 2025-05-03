@@ -13,6 +13,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { useToast } from "@/hooks/use-toast"
 import { Loader2, Lock, User, MapPin, Phone, Eye, EyeOff } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { PasswordStrength } from "@/components/password-strength"
 
 export default function ProfilePage() {
   const { user, updateUserProfile, updatePassword, isLoading } = useAuth()
@@ -45,6 +46,17 @@ export default function ProfilePage() {
       router.push("/login")
     }
   }, [user, router])
+
+  // Validar requisitos de contraseña
+  const validatePassword = (password: string) => {
+    const hasUpperCase = /[A-Z]/.test(password)
+    const hasLowerCase = /[a-z]/.test(password)
+    const hasNumber = /[0-9]/.test(password)
+    const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)
+    const isLongEnough = password.length >= 8
+
+    return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLongEnough
+  }
 
   if (!user) {
     return (
@@ -90,12 +102,35 @@ export default function ProfilePage() {
     }
   }
 
+  const handleCancelEdit = () => {
+    // Restaurar valores originales
+    setPhone(user.phone || "")
+    setAddress(user.address || "")
+    setIsEditing(false)
+
+    toast({
+      title: "Cambios cancelados",
+      description: "Se han descartado los cambios",
+    })
+  }
+
   const handleChangePassword = async () => {
     // Validar que las contraseñas coincidan
     if (newPassword !== confirmPassword) {
       toast({
         title: "Error",
         description: "Las contraseñas nuevas no coinciden",
+        variant: "destructive",
+      })
+
+      return
+    }
+
+    // Validar requisitos de contraseña
+    if (!validatePassword(newPassword)) {
+      toast({
+        title: "Error",
+        description: "La contraseña no cumple con los requisitos de seguridad",
         variant: "destructive",
       })
       return
@@ -163,7 +198,7 @@ export default function ProfilePage() {
                         </Button>
                       ) : (
                         <div className="space-x-2">
-                          <Button onClick={() => setIsEditing(false)} variant="outline">
+                          <Button onClick={handleCancelEdit} variant="outline">
                             Cancelar
                           </Button>
                           <Button onClick={handleSaveProfile} disabled={isLoading}>
@@ -299,6 +334,7 @@ export default function ProfilePage() {
                             </span>
                           </Button>
                         </div>
+                        <PasswordStrength password={newPassword} />
                       </div>
 
                       <div className="space-y-2">
@@ -309,6 +345,13 @@ export default function ProfilePage() {
                             type={showConfirmPassword ? "text" : "password"}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            className={
+                              confirmPassword
+                                ? newPassword === confirmPassword
+                                  ? "border-green-500"
+                                  : "border-red-500"
+                                : ""
+                            }
                           />
                           <Button
                             type="button"
@@ -327,6 +370,15 @@ export default function ProfilePage() {
                             </span>
                           </Button>
                         </div>
+                        {confirmPassword && (
+                          <div
+                            className={`text-xs ${newPassword === confirmPassword ? "text-green-600" : "text-red-600"}`}
+                          >
+                            {newPassword === confirmPassword
+                              ? "Las contraseñas coinciden"
+                              : "Las contraseñas no coinciden"}
+                          </div>
+                        )}
                       </div>
 
                       <Button

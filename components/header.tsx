@@ -35,17 +35,23 @@ export default function Header() {
           <Link href="/" className="text-sm font-medium hover:text-pink-600 transition-colors">
             Inicio
           </Link>
-          <Link href="/nosotros" className="text-sm font-medium hover:text-pink-600 transition-colors">
-            Sobre Nosotros
+          <Link
+            href="/promociones"
+            className="text-sm font-medium hover:text-pink-600 transition-colors relative group"
+          >
+            <span className="relative">
+              Promociones
+              <span className="absolute -top-1 -right-6 bg-pink-600 text-white text-xs px-1 rounded-full">Hot</span>
+            </span>
           </Link>
           <Link href="/productos" className="text-sm font-medium hover:text-pink-600 transition-colors">
             Productos
           </Link>
+          <Link href="/nosotros" className="text-sm font-medium hover:text-pink-600 transition-colors">
+            Sobre Nosotros
+          </Link>
           <Link href="/contacto" className="text-sm font-medium hover:text-pink-600 transition-colors">
             Contacto
-          </Link>
-          <Link href="/promociones" className="text-sm font-medium hover:text-pink-600 transition-colors">
-            Promociones
           </Link>
         </nav>
         <div className="hidden md:flex gap-4">
@@ -96,17 +102,21 @@ export default function Header() {
               <Link href="/" className="text-lg font-medium hover:text-pink-600 transition-colors py-2">
                 Inicio
               </Link>
-              <Link href="/nosotros" className="text-lg font-medium hover:text-pink-600 transition-colors py-2">
-                Sobre Nosotros
+              <Link
+                href="/promociones"
+                className="text-lg font-medium hover:text-pink-600 transition-colors py-2 flex items-center"
+              >
+                Promociones
+                <span className="ml-2 bg-pink-600 text-white text-xs px-1.5 py-0.5 rounded-full">Hot</span>
               </Link>
               <Link href="/productos" className="text-lg font-medium hover:text-pink-600 transition-colors py-2">
                 Productos
               </Link>
+              <Link href="/nosotros" className="text-lg font-medium hover:text-pink-600 transition-colors py-2">
+                Sobre Nosotros
+              </Link>
               <Link href="/contacto" className="text-lg font-medium hover:text-pink-600 transition-colors py-2">
                 Contacto
-              </Link>
-              <Link href="/promociones" className="text-lg font-medium hover:text-pink-600 transition-colors py-2">
-                Promociones
               </Link>
               <div className="flex flex-col gap-2 mt-4">
                 {user ? (

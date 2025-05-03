@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
+import { PromotionAlert } from "@/components/promotion-alert"
 
 export type User = {
   id: string
@@ -22,6 +23,8 @@ type AuthContextType = {
   updateUserProfile: (userData: Partial<User>) => Promise<boolean>
   updatePassword: (currentPassword: string, newPassword: string) => Promise<boolean>
   isLoading: boolean
+  showPromotionAlert: boolean
+  setShowPromotionAlert: (show: boolean) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -29,6 +32,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [showPromotionAlert, setShowPromotionAlert] = useState(false)
 
   // Verificar si hay un usuario en localStorage al cargar
   useEffect(() => {
@@ -77,6 +81,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(userData)
       localStorage.setItem("sweetsky_user", JSON.stringify(userData))
       setIsLoading(false)
+
+      // Mostrar alerta de promociones después del login
+      setShowPromotionAlert(true)
+
       return true
     }
 
@@ -118,6 +126,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userForAuth)
     localStorage.setItem("sweetsky_user", JSON.stringify(userForAuth))
 
+    // Mostrar alerta de promociones después del registro
+    setShowPromotionAlert(true)
+
     setIsLoading(false)
     return true
   }
@@ -125,6 +136,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null)
     localStorage.removeItem("sweetsky_user")
+    setShowPromotionAlert(false)
   }
 
   const updateUserProfile = async (userData: Partial<User>) => {
@@ -182,8 +194,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateUserProfile, updatePassword, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        register,
+        logout,
+        updateUserProfile,
+        updatePassword,
+        isLoading,
+        showPromotionAlert,
+        setShowPromotionAlert,
+      }}
+    >
       {children}
+      {showPromotionAlert && user && (
+        <PromotionAlert
+          title="¡Promociones especiales!"
+          description="Descubre nuestras promociones del mes. ¡No te las pierdas!"
+          linkText="Ver promociones"
+          linkHref="/promociones"
+        />
+      )}
     </AuthContext.Provider>
   )
 }

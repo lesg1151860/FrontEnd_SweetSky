@@ -95,9 +95,63 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 hover:text-pink-600 transition-colors"
+                aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
+              </a>
+              <a
+                href="https://www.tiktok.com/@sweet.sky230?_t=ZS-8w3Jt8fwcpL&_r=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-pink-600 transition-colors"
+                aria-label="TikTok"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5"
+                >
+                  <path d="M9 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path>
+                  <path d="M15 8c0 1.657-1.343 3-3 3"></path>
+                  <path d="M21 8v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5z"></path>
+                  <path d="M16 8v13"></path>
+                  <path d="M12 16v5"></path>
+                </svg>
+                <span className="sr-only">TikTok</span>
+              </a>
+              <a
+                href="https://wa.me/573152323751"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-green-600 transition-colors"
+                aria-label="WhatsApp"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5"
+                >
+                  <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                  <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Z"></path>
+                  <path d="M14 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Z"></path>
+                  <path d="M9 14h6a1 1 0 0 0 1-1v0a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v0a1 1 0 0 0 1 1Z"></path>
+                </svg>
+                <span className="sr-only">WhatsApp</span>
               </a>
             </div>
           </div>

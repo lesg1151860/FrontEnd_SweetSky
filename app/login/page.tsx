@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -15,6 +15,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { useToast } from "@/hooks/use-toast"
 import { AlertCircle, Eye, EyeOff } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { PasswordStrength, PasswordMatch } from "@/components/password-strength"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -38,10 +39,11 @@ export default function LoginPage() {
   const { toast } = useToast()
 
   // Si el usuario ya está autenticado, redirigir a la página de inicio
-  if (user) {
-    router.push("/")
-    return null
-  }
+  useEffect(() => {
+    if (user) {
+      router.push("/")
+    }
+  }, [user, router])
 
   const handleGoogleLogin = () => {
     setIsLoading(true)
@@ -65,9 +67,9 @@ export default function LoginPage() {
       if (success) {
         toast({
           title: "Inicio de sesión exitoso",
-          description: "Bienvenido a Sweet Sky",
+          description: `Bienvenido ${user?.name}`,
         })
-        router.push("/")
+        router.push("/promociones")
       } else {
         toast({
           title: "Error de inicio de sesión",
@@ -86,6 +88,17 @@ export default function LoginPage() {
     }
   }
 
+  // Validar requisitos de contraseña
+  const validatePassword = (password: string) => {
+    const hasUpperCase = /[A-Z]/.test(password)
+    const hasLowerCase = /[a-z]/.test(password)
+    const hasNumber = /[0-9]/.test(password)
+    const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)
+    const isLongEnough = password.length >= 8
+
+    return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLongEnough
+  }
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -95,6 +108,17 @@ export default function LoginPage() {
       toast({
         title: "Error",
         description: "Las contraseñas no coinciden",
+        variant: "destructive",
+      })
+      setIsLoading(false)
+      return
+    }
+
+    // Validar requisitos de contraseña
+    if (!validatePassword(registerPassword)) {
+      toast({
+        title: "Error",
+        description: "La contraseña no cumple con los requisitos de seguridad",
         variant: "destructive",
       })
       setIsLoading(false)
@@ -115,9 +139,9 @@ export default function LoginPage() {
       if (success) {
         toast({
           title: "Registro exitoso",
-          description: "Bienvenido a Sweet Sky",
+          description: `Bienvenido ${registerName}, tu cuenta ha sido creada correctamente`,
         })
-        router.push("/")
+        router.push("/promociones")
       } else {
         toast({
           title: "Error de registro",
@@ -134,6 +158,10 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (user) {
+    return null // No renderizar nada si el usuario ya está autenticado
   }
 
   return (
@@ -367,6 +395,7 @@ export default function LoginPage() {
                             </span>
                           </Button>
                         </div>
+                        <PasswordStrength password={registerPassword} />
                       </div>
 
                       <div className="space-y-2">
@@ -380,6 +409,13 @@ export default function LoginPage() {
                             required
                             value={registerConfirmPassword}
                             onChange={(e) => setRegisterConfirmPassword(e.target.value)}
+                            className={
+                              registerConfirmPassword
+                                ? registerPassword === registerConfirmPassword
+                                  ? "border-green-500"
+                                  : "border-red-500"
+                                : ""
+                            }
                           />
                           <Button
                             type="button"
@@ -398,6 +434,7 @@ export default function LoginPage() {
                             </span>
                           </Button>
                         </div>
+                        <PasswordMatch password={registerPassword} confirmPassword={registerConfirmPassword} />
                       </div>
 
                       <Button type="submit" className="w-full bg-pink-600 hover:bg-pink-700" disabled={isLoading}>
