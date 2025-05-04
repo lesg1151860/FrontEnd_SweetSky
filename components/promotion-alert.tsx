@@ -27,23 +27,23 @@ export function PromotionAlert({ title, description, linkText, linkHref }: Promo
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-md bg-white rounded-lg shadow-lg border border-pink-200 p-4 animate-in slide-in-from-bottom-5">
-      <div className="flex justify-between items-start">
-        <div className="flex-1">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div className="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 animate-in fade-in zoom-in duration-300">
+        <div className="flex justify-between items-center p-4 border-b">
           <h3 className="font-medium text-lg text-pink-600">{title}</h3>
-          <p className="text-gray-600 text-sm mt-1">{description}</p>
-          <div className="mt-3">
+          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full" onClick={() => setIsVisible(false)}>
+            <X className="h-4 w-4" />
+            <span className="sr-only">Cerrar</span>
+          </Button>
+        </div>
+        <div className="p-4">
+          <p className="text-gray-600">{description}</p>
+          <div className="mt-6 flex justify-center">
             <Link href={linkHref}>
-              <Button size="sm" className="bg-pink-600 hover:bg-pink-700">
-                {linkText}
-              </Button>
+              <Button className="bg-pink-600 hover:bg-pink-700 px-6">{linkText}</Button>
             </Link>
           </div>
         </div>
-        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 rounded-md" onClick={() => setIsVisible(false)}>
-          <X className="h-4 w-4" />
-          <span className="sr-only">Cerrar</span>
-        </Button>
       </div>
     </div>
   )
